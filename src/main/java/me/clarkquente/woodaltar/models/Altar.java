@@ -81,7 +81,7 @@ public class Altar {
         Preconditions.checkNotNull(getLocation());
         if(!isAlive()) return;
 
-        AltarDestroyEvent altarDestroyEvent = new AltarDestroyEvent(player, this, false);
+        AltarDestroyEvent altarDestroyEvent = new AltarDestroyEvent(player, this);
         Bukkit.getPluginManager().callEvent(altarDestroyEvent);
         if(altarDestroyEvent.isCancelled()) return;
 

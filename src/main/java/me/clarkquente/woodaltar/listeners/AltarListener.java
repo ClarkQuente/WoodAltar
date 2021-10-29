@@ -3,6 +3,7 @@ package me.clarkquente.woodaltar.listeners;
 import lombok.val;
 import me.clarkquente.woodaltar.WoodAltar;
 import me.clarkquente.woodaltar.api.WoodAltarAPI;
+import me.clarkquente.woodaltar.api.events.AltarDamageEvent;
 import me.clarkquente.woodaltar.models.Altar;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EnderCrystal;
@@ -28,6 +29,10 @@ public class AltarListener implements Listener {
                 );
 
                 if(altar == null) return;
+
+                AltarDamageEvent altarDamageEvent = new AltarDamageEvent(player, altar);
+                Bukkit.getPluginManager().callEvent(altarDamageEvent);
+                if(altarDamageEvent.isCancelled()) return;
 
                 double damage = e.getFinalDamage();
 
