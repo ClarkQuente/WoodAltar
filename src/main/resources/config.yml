@@ -1,0 +1,7 @@
+Configuracoes:
+  VidaPadrao: 10000 # Vida padrão de um altar.
+  TempoPadrao: 5 # Tempo padrão em minutos para um altar respawnar.
+  Holograma:
+    - '&b&lAltar Divino'
+    - ''
+    - '&7Vida: &e{vida}&7/&e{maximo-vida}'

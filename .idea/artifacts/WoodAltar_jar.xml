@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="WoodAltar:jar">
+    <output-path>$USER_HOME$/Desktop/Servidor/plugins</output-path>
+    <root id="archive" name="WoodAltar.jar">
+      <element id="module-output" name="WoodAltar.main" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.HenryFabio.configuration-injector/bukkit/main-SNAPSHOT/66a99bf1979830f7fa5ae4572b08fa9d8bf4a211/bukkit-main-SNAPSHOT.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.HenryFabio/configuration-injector/main-SNAPSHOT/9388e5ea1869a970205c07b0704af2180f15143d/configuration-injector-main-SNAPSHOT.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.HenryFabio.configuration-injector/common/main-SNAPSHOT/c5976878b9aa68a789c663a1dab29238f3f3e6a8/common-main-SNAPSHOT.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.HenryFabio.configuration-injector/configuration-injector/main-SNAPSHOT/bfdcd3435e9683febeef746d7c99b3abf7153c4a/configuration-injector-main-SNAPSHOT.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.HenryFabio.configuration-injector/bungee/main-SNAPSHOT/33f9758889ac270b297896819cdf97cd27b7a69b/bungee-main-SNAPSHOT.jar" path-in-jar="/" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/config.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/mensagens.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+    </root>
+  </artifact>
+</component>

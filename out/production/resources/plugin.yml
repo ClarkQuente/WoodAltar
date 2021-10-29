@@ -1,0 +1,6 @@
+name: WoodAltar
+version: 1.0.0.0
+main: me.clarkquente.woodaltar.WoodAltar
+softdepend: [HolographicDisplays]
+commands:
+  altar:
