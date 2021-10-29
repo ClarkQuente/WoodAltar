@@ -18,14 +18,21 @@ public class WoodAltarAPI {
         return woodAltarAPI;
     }
 
+    /*
+     * A method to get the Metadata Key from a altar.
+     *
+     * @return Altar metadata key.
+     */
     public String getMetadataKey() {
         return "WoodAltar";
     }
 
-    public Altar getAltar(Location location) {
-        return WoodAltar.getAltarManager().getAltar(location);
-    }
-
+    /*
+     * Get a altar from id.
+     *
+     * @param id the id you picked up by the metadata.
+     * @return Return the altar or null if not found.
+     */
     public Altar getAltar(String id) {
         return WoodAltar.getAltarManager().getAltar(id);
     }

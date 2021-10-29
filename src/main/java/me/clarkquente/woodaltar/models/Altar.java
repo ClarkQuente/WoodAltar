@@ -6,6 +6,7 @@ import com.google.common.base.Preconditions;
 import lombok.*;
 import me.clarkquente.woodaltar.WoodAltar;
 import me.clarkquente.woodaltar.api.WoodAltarAPI;
+import me.clarkquente.woodaltar.api.events.AltarDestroyEvent;
 import me.clarkquente.woodaltar.configuration.GeneralValue;
 import me.clarkquente.woodaltar.configuration.MessageValue;
 import org.bukkit.Bukkit;
@@ -25,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class Altar {
 
-    @NonNull private String id;
+    @NonNull private final String id;
     @NonNull private Location location;
     @NonNull private double maxHealth, actualHealth;
     @NonNull private int minutesToRespawn;
@@ -76,12 +77,16 @@ public class Altar {
         }, automaticallyStart ? 0 : getMinutesToRespawn() * 60L * 20L, getMinutesToRespawn() * 60L * 20L);
     }
 
-    public void destroyAltar(Entity entity, Player player) {
+    public void destroyAltar(Player player) {
         Preconditions.checkNotNull(getLocation());
         if(!isAlive()) return;
 
+        AltarDestroyEvent altarDestroyEvent = new AltarDestroyEvent(player, this, false);
+        Bukkit.getPluginManager().callEvent(altarDestroyEvent);
+        if(altarDestroyEvent.isCancelled()) return;
+
         hologram.delete();
-        entity.remove();
+        enderCrystal.remove();
 
         getRewards().forEach(it -> {
             getLocation().getWorld().dropItemNaturally(getLocation(), it);

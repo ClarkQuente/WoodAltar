@@ -28,11 +28,7 @@ public class AltarManager {
     }
 
     public void add(Altar altar) {
-        if(getAltar(altar.getLocation()) == null) altarList.add(altar);
-    }
-
-    public Altar getAltar(Location location) {
-        return altarList.stream().filter(alt -> alt.getLocation() == location).findFirst().orElse(null);
+        if(getAltar(altar.getId()) == null) altarList.add(altar);
     }
 
     public Altar getAltar(String id) {

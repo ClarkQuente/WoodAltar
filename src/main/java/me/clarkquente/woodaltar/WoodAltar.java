@@ -9,7 +9,6 @@ import me.clarkquente.woodaltar.listeners.AltarInventoryListener;
 import me.clarkquente.woodaltar.listeners.AltarListener;
 import me.clarkquente.woodaltar.managers.AltarManager;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
