@@ -78,7 +78,6 @@ public class AltarManager {
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 
         for(String key : config.getConfigurationSection("Altares").getKeys(false)) {
-            Bukkit.getConsoleSender().sendMessage("§b" + key + " passou");
 
             Location location = LocationSerializer.getLocationFromString(config.getString("Altares." + key + ".Location"));
             double maxHealth = config.getDouble("Altares." + key + ".MaxHealth");
@@ -92,7 +91,8 @@ public class AltarManager {
             Altar altar = new Altar(key, location, maxHealth, maxHealth, minutesToRespawn, rewards, false, automaticallyStart);
             add(altar);
 
-            altar.createAltar();
+            if(automaticallyStart) altar.spawnAltar();
+            WoodAltar.getInstance().getLogger().info("O altar " + key + " foi adicionado.");
         }
     }
 }

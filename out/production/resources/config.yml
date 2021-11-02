@@ -1,6 +1,10 @@
 Configuracoes:
   VidaPadrao: 10000 # Vida padrão de um altar.
   TempoPadrao: 5 # Tempo padrão em minutos para um altar respawnar.
+  AplicarEfeitos: true # True para caso queira que tenha chance de ser aplicado um efeito ao hitar um altar.
+  ChanceEfeito: 20 # Porcentagem de chance.
+  DuracaoEfeito: 5 # Tempo em segundos para a duração do efeito caso aplicado.
+  Efeito: "SLOW" # Efeito que será aplicado; Veja a lista em: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionEffectType.html
   Holograma:
     - '&b&lAltar Divino'
     - ''

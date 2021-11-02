@@ -17,9 +17,13 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.List;
+import java.util.Random;
 
 @Getter
 @Setter
@@ -34,47 +38,44 @@ public class Altar {
     private Hologram hologram;
     @NonNull private boolean alive, automaticallyStart;
 
-    private BukkitTask task;
     private EnderCrystal enderCrystal;
     private int lineHealth;
     private String textLineHealth;
+    private final Random random = new Random();
 
-    public void createAltar() {
+    public void spawnAltar() {
         Preconditions.checkNotNull(getLocation());
-        if(task != null) task.cancel();
 
-        task = Bukkit.getScheduler().runTaskTimer(WoodAltar.getInstance(), () -> {
+        if(isAlive()) return;
+        setActualHealth(getMaxHealth());
 
-            if(isAlive()) return;
-            setActualHealth(getMaxHealth());
+        enderCrystal = (EnderCrystal) getLocation().getWorld().spawnEntity(new Location(
+                getLocation().getWorld(), getLocation().getX(),
+                getLocation().getWorld().getHighestBlockAt(getLocation()).getY() + 1.0D,
+                getLocation().getZ()), EntityType.ENDER_CRYSTAL);
 
-            enderCrystal = (EnderCrystal) getLocation().getWorld().spawnEntity(new Location(
-                    getLocation().getWorld(), getLocation().getX(),
-                    getLocation().getWorld().getHighestBlockAt(getLocation()).getY() + 1.0D,
-                    getLocation().getZ()), EntityType.ENDER_CRYSTAL);
+        enderCrystal.setMetadata(
+                WoodAltarAPI.getInstance().getMetadataKey(), new FixedMetadataValue(WoodAltar.getInstance(), id)
+        );
 
-            enderCrystal.setMetadata(
-                    WoodAltarAPI.getInstance().getMetadataKey(), new FixedMetadataValue(WoodAltar.getInstance(), id)
-            );
+        hologram = HologramsAPI.createHologram(WoodAltar.getInstance(), enderCrystal.getLocation().add(0, 3.0D, 0));
 
-            hologram = HologramsAPI.createHologram(WoodAltar.getInstance(), enderCrystal.getLocation().add(0, 3.0D, 0));
+        MessageValue.get(MessageValue::altarSpawned).forEach(Bukkit::broadcastMessage);
 
-            int i = 0;
-            for(String line : GeneralValue.get(GeneralValue::hologram)) {
-                hologram.insertTextLine(i, line
-                        .replace("{vida}", String.valueOf(actualHealth))
-                        .replace("{maximo-vida}", String.valueOf(maxHealth)));
+        int i = 0;
+        for(String line : GeneralValue.get(GeneralValue::hologram)) {
+            hologram.insertTextLine(i, line
+                    .replace("{vida}", String.valueOf(actualHealth))
+                    .replace("{maximo-vida}", String.valueOf(maxHealth)));
 
-                if(line.contains("{vida}")) {
-                    setLineHealth(i);
-                    setTextLineHealth(line);
-                }
-                i++;
+            if(line.contains("{vida}")) {
+                setLineHealth(i);
+                setTextLineHealth(line);
             }
+            i++;
+        }
 
-            setAlive(true);
-
-        }, automaticallyStart ? 0 : getMinutesToRespawn() * 60L * 20L, getMinutesToRespawn() * 60L * 20L);
+        setAlive(true);
     }
 
     public void destroyAltar(Player player) {
@@ -85,8 +86,7 @@ public class Altar {
         Bukkit.getPluginManager().callEvent(altarDestroyEvent);
         if(altarDestroyEvent.isCancelled()) return;
 
-        hologram.delete();
-        enderCrystal.remove();
+        unspawnAltar();
 
         getRewards().forEach(it -> {
             getLocation().getWorld().dropItemNaturally(getLocation(), it);
@@ -96,7 +96,12 @@ public class Altar {
             Bukkit.broadcastMessage(msg.replace("{player}", player.getName()));
         });
 
-        setAlive(false);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                spawnAltar();
+            }
+        }.runTaskLater(WoodAltar.getInstance(), getMinutesToRespawn() * 60L * 20L);
     }
 
     public void unspawnAltar() {
@@ -108,8 +113,19 @@ public class Altar {
         setAlive(false);
     }
 
-    public void damage(int damage) {
+    public void damage(Player player, int damage) {
         setActualHealth(getActualHealth() - damage);
+
+        if(GeneralValue.get(GeneralValue::applyEffect) && (getRandom().nextInt(100) <= GeneralValue.get(GeneralValue::chanceEffect))) {
+            player.addPotionEffect(
+                    new PotionEffect(
+                            PotionEffectType.getByName(GeneralValue.get(GeneralValue::effectName).toUpperCase()),
+                            GeneralValue.get(GeneralValue::durationEffect)*20,
+                            0,
+                            true,
+                            false)
+            );
+        }
 
         hologram.getLine(getLineHealth()).removeLine();
         hologram.insertTextLine(getLineHealth(), getTextLineHealth()

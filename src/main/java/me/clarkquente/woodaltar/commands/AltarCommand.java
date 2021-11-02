@@ -105,8 +105,7 @@ public class AltarCommand implements CommandExecutor {
                             return false;
                         }
 
-                        altar.createAltar();
-                        MessageValue.get(MessageValue::altarSpawned).forEach(Bukkit::broadcastMessage);
+                        altar.spawnAltar();
                         return true;
 
                     } else if(args[0].equalsIgnoreCase("unspawn")) {
@@ -205,7 +204,8 @@ public class AltarCommand implements CommandExecutor {
                         if(args[2].equalsIgnoreCase("tempo")) {
 
                             altar.setMinutesToRespawn(number);
-                            p.sendMessage(MessageValue.get(MessageValue::timeChanged));
+                            p.sendMessage(MessageValue.get(MessageValue::timeChanged)
+                                    .replace("{altar}", altar.getId()));
                             return true;
 
                         } else if(args[2].equalsIgnoreCase("vida")) {

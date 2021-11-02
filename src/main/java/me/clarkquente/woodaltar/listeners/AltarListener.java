@@ -37,7 +37,7 @@ public class AltarListener implements Listener {
                 double damage = e.getFinalDamage();
 
                 if(altar.getActualHealth() - (int) damage <= 0) altar.destroyAltar(player);
-                else altar.damage((int) damage);
+                else altar.damage(player, (int) damage);
             }
         }
     }

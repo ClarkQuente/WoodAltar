@@ -25,6 +25,10 @@ public class GeneralValue implements ConfigurationInjectable {
 
     @ConfigField("Configuracoes.VidaPadrao") private double defaultHealth;
     @ConfigField("Configuracoes.TempoPadrao") private int defaultTime;
+    @ConfigField("Configuracoes.AplicarEfeitos") private boolean applyEffect;
+    @ConfigField("Configuracoes.ChanceEfeito") private double chanceEffect;
+    @ConfigField("Configuracoes.DuracaoEfeito") private int durationEffect;
+    @ConfigField("Configuracoes.Efeito") private String effectName;
     @ConfigField("Configuracoes.Holograma") private List<String> hologram;
 
     public static <T> T get(Function<GeneralValue, T> function) {
