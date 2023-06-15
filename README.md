@@ -4,13 +4,13 @@
 
 <h3> • Como pegar um altar pelo ID </h3>
 
-```yaml
+```java
 Altar altar = WoodAltarAPI.getInstance().getAltar(id);
 ```
 
 <h3> • Como pegar o evento de dano ao altar </h3>
 
-```yaml
+```java
 @EventHandler
 public void onDamage(AltarDamageEvent e) {
   Player player = e.getPlayer();
@@ -22,7 +22,7 @@ public void onDamage(AltarDamageEvent e) {
 
 <h3> • Como pegar o evento ao destruir o altar </h3>
 
-```yaml
+```java
 @EventHandler
 public void onDestroy(AltarDestroyEvent e) {
   Player player = e.getPlayer();
